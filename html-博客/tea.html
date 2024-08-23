@@ -1,0 +1,357 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <style>
+        html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #03061A;
+    position: relative;
+    overflow: hidden;
+}
+ 
+.star {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    position: absolute;
+    background-color: rgba(237, 205, 163, 0.8);
+    box-shadow: 0 0 40px 0 rgba(237, 205, 163, 0.8), 0 0 20px 0 #FFFFFF;
+    animation: glow 5s infinite;
+}
+ 
+.star--medium {
+    width: 6px;
+    height: 6px;
+}
+ 
+.star--big {
+    width: 9px;
+    height: 9px;
+    box-shadow: 0 0 40px 0 #EDCDA3, 0 0 20px 0 #FFFFFF, inset 0 0 4px #FFFFFF;
+}
+ 
+.comet {
+    width: 6px;
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 40px 0 #EDCDA3, 0 0 20px 0 #FFFFFF, inset 0 0 8px rgba(255, 255, 255, 0.6);
+    top: 0;
+    left: 80%;
+    opacity: 0.3;
+    transform: rotate(-45deg) translate(0, -50px);
+    animation: comet 6s infinite;
+}
+ 
+.comet:after {
+    content: '';
+    width: 20vw;
+    height: 6px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(237, 205, 163, 0.4);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+ 
+@keyframes glow {
+    0% {
+        opacity: 0.9;
+    }
+    50% {
+        opacity: 0.2;
+    }
+    100% {
+        opacity: 0.9;
+    }
+}
+ 
+@keyframes comet {
+    0% {
+        transform: rotate(-45deg) translateX(0);
+        opacity: 0.3;
+    }
+    10% {
+        opacity: 1;
+    }
+    20% {
+        transform: rotate(-45deg) translateX(-100vw);
+        opacity: 0;
+    }
+    100% {
+        transform: rotate(-45deg) translateX(-100vw);
+        opacity: 0;
+    }
+}
+    </style>
+    <script
+      id="jqbb"
+      src="https://libs.baidu.com/jquery/1.11.1/jquery.min.js"
+    ></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: black;
+        user-select: none;
+        margin: 0;
+      }
+ 
+      .city {
+        width: 100%;
+        position: fixed;
+        bottom: 0px;
+        z-index: 100;
+      }
+ 
+      .city img {
+        width: 100%;
+      }
+ 
+      audio {
+        opacity: 0;
+      }
+      .shape {
+        z-index: 9999 !important;
+      }
+    </style>
+    <title>教师节快乐</title>
+    <link href="modal.css" rel="stylesheet" />
+  </head>
+  <body onselectstart="return false">
+    <div class="star comet"></div>
+    <script src="js/index.js"></script>
+    <!--烟花部分-->
+    <div class="city">
+      <img src="img/city.png" alt="" />
+    </div>
+    <img src="moon.png" alt="" id="moon" style="visibility: hidden" />
+    <div style="display: none">
+      <div class="shape">9.10????教师节</div>
+      <div class="shape">????老师您辛苦了</div>
+      <div class="shape">????祝您节日快乐!</div>
+      <div class="shape">????万事如意</div> 
+      <div class="shape">????工作顺利</div>  
+      <div class="shape">????开开心心过每分钟</div>  
+      <div class="shape">????高欢快兴过每一天！</div>  
+    </div>
+    <!--音乐部分/可替换-->
+    <audio autoplay loop id="music">
+      <source src="mp3/xinnian.mp3" />
+    </audio>
+    <iframe
+      id="iframMusic"
+      allow="autoplay"
+      style="display: none"
+      src="mp3/xinnian.mp3"
+    ></iframe>
+    <script>
+        var canvas = document.getElementById("cas");
+var ocas = document.createElement("canvas");
+var octx = ocas.getContext("2d");
+var ctx = canvas.getContext("2d");
+ocas.width = canvas.width = window.innerWidth;
+ocas.height = canvas.height = window.innerHeight;
+var bigbooms = [];
+ 
+document.getElementById("iframMusic").onload = function () {
+  var music = document.getElementById("music");
+  music.src = "./mp3/music.mp3";
+  music.oncanplay = function () {
+    music.play();
+  };
+};
+ // 开始放烟花
+function initAnimate() {
+  drawBg();
+  lastTime = new Date();
+  animate();
+}
+var lastTime;
+ 
+function drawMoon() {
+  var moon = document.getElementById("moon");
+  var centerX = canvas.width - 200,
+    centerY = 100,
+    width = 80;
+  if (moon.complete) {
+    ctx.drawImage(moon, centerX, centerY, width, width);
+  } else {
+    moon.onload = function () {
+      ctx.drawImage(moon, centerX, centerY, width, width);
+    };
+  }
+  var index = 0;
+  for (var i = 0; i < 10; i++) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(
+      centerX + width / 2,
+      centerY + width / 2,
+      width / 2 + index,
+      0,
+      2 * Math.PI
+    );
+    ctx.fillStyle = "rgba(240,219,120,0.005)";
+    index += 2;
+    ctx.fill();
+    ctx.restore();
+  }
+}
+ 
+function putValue(canvas, context, ele, dr, callback) {
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  var img = new Image();
+  if (ele.innerHTML.indexOf("img") >= 0) {
+    img.src = ele.getElementsByTagName("img")[0].src;
+    imgload(img, function () {
+      context.drawImage(
+        img,
+        canvas.width / 2 - img.width / 2,
+        canvas.height / 2 - img.width / 2
+      );
+      dots = getimgData(canvas, context, dr);
+      callback(dots);
+    });
+  } else {
+    var text = ele.innerHTML;
+    context.save();
+    // 烟花字体大小
+    var fontSize = 0;
+    if (
+      navigator.userAgent.match(
+    /(phone|pod|iPhone|iPod|ios|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+      )
+    ) {
+      // 移动端字体
+      fontSize = 180;
+      console.log("移动端");
+    } else {
+      // pc端字体
+      fontSize = 200;
+    }
+    context.font = fontSize + "px 宋体 bold";
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.fillStyle =
+      "rgba(" +
+      parseInt(getRandom(128, 255)) +
+      "," +
+      parseInt(getRandom(128, 255)) +
+      "," +
+      parseInt(getRandom(128, 255)) +
+      " , 1)";
+    context.fillText(text, canvas.width / 2, canvas.height / 2);
+    context.restore();
+    dots = getimgData(canvas, context, dr);
+    callback(dots);
+  }
+}
+ 
+function imgload(img, callback) {
+  if (img.complete) {
+    callback.call(img);
+  } else {
+    img.onload = function () {
+      callback.call(this);
+    };
+  }
+}
+ 
+function getimgData(canvas, context, dr) {
+  var imgData = context.getImageData(0, 0, canvas.width, canvas.height);
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  var dots = [];
+  for (var x = 0; x < imgData.width; x += dr) {
+    for (var y = 0; y < imgData.height; y += dr) {
+      var i = (y * imgData.width + x) * 4;
+      if (imgData.data[i + 3] > 128) {
+        var dot = {
+          x: x,
+          y: y,
+          a: imgData.data[i],
+          b: imgData.data[i + 1],
+          c: imgData.data[i + 2],
+        };
+        dots.push(dot);
+      }
+    }
+  }
+  return dots;
+}
+ 
+function getRandom(a, b) {
+  return Math.random() * (b - a) + a;
+}
+var maxRadius = 1,
+  stars = [];
+ 
+function drawBg() {
+  for (var i = 0; i < 100; i++) {
+    var r = Math.random() * maxRadius;
+    var x = Math.random() * canvas.width;
+    var y = Math.random() * 2 * canvas.height - canvas.height;
+    var star = new Star(x, y, r);
+    stars.push(star);
+    star.paint();
+  }
+}
+var Star = function (x, y, r) {
+  this.x = x;
+  this.y = y;
+  this.r = r;
+};
+Star.prototype = {
+  paint: function () {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
+    ctx.fillStyle = "rgba(255,255,255," + this.r + ")";
+    ctx.fill();
+    ctx.restore();
+  },
+};
+var focallength = 250;
+var Frag = function (centerX, centerY, radius, color, tx, ty) {
+  this.tx = tx;
+  this.ty = ty;
+  this.x = centerX;
+  this.y = centerY;
+  this.dead = false;
+  this.centerX = centerX;
+  this.centerY = centerY;
+  this.radius = radius;
+  this.color = color;
+};
+Frag.prototype = {
+  paint: function () {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+    ctx.fillStyle =
+      "rgba(" + this.color.a + "," + this.color.b + "," + this.color.c + ",1)";
+    ctx.fill();
+    ctx.restore();
+  },
+  moveTo: function (index) {
+    this.ty = this.ty + 0.3;
+    var dx = this.tx - this.x,
+      dy = this.ty - this.y;
+    this.x = Math.abs(dx) < 0.1 ? this.tx : this.x + dx * 0.1;
+    this.y = Math.abs(dy) < 0.1 ? this.ty : this.y + dy * 0.1;
+    if (dx === 0 && Math.abs(dy) <= 80) {
+      this.dead = true;
+    }
+    this.paint();
+  },
+};
+    </script>
+  </body>
+</html>

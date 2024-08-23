@@ -1,0 +1,106 @@
+﻿body {
+    background-color: #f0f0f0; /* 页面背景为浅灰色 */
+}
+
+
+.daohang {
+    font-family: HarmonyOS_Sans_SC_Medium,"微软雅黑",Arial, sans-serif;
+    background-color: white; /* 导航栏白色背景 */
+    border-radius: 18px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 微弱阴影增加深度感 */
+    padding: 3px; /* 导航栏内边距 */
+}
+
+.daohang ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 25px;
+}
+
+.daohang li {
+    float: left;
+}
+
+.daohang li a {
+    display: block;
+    color: black; /* 黑色文字 */
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    position: relative; /* 为了下划线动画效果 */
+    transition: color 0.3s, font-size 0.3s; /* 平滑过渡文字颜色和字体大小 */
+}
+
+.daohang li a:hover {
+    color: #0056b3; /* 悬停时文字颜色变为深蓝色 */
+}
+
+.daohang li a::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 16xp;
+    bottom: 0;
+    height: 3px; /* 下划线高度 */
+    width: 100%;
+    background-color: #0056b3; 
+    transform: scaleX(0); 
+    transform-origin: bottom left;
+    transition: transform 0.3s ease-out;
+}
+
+.daohang li a:hover::after {
+    left: 16px;
+    transform: scaleX(0.5);
+}
+
+.daohang .active {
+    font-weight: bold;
+    left: 8px;
+}
+.wenzhang{
+  background-color: white;
+  border-color: black;
+  top: 50%;
+  border-left: 70%;
+  border-radius: 25px;
+  .huan{
+    text-align: center;
+    font-family:宋体;
+    font-size: 20px;
+  }
+  .jie{
+    font-size: 14px;
+    font-family:楷体;
+  }
+  .qianbei{
+    .qian{
+      font-family: 宋体;
+      text-align:right;
+      }
+  }
+}
+.wenzhang1{
+    background-color: white;
+    border-color: black;
+    top: 50%;
+    border-left: 70%;
+    border-radius: 25px;
+    .huan{
+      text-align: center;
+      font-family:宋体;
+      font-size: 20px;
+    }
+    .jie{
+      font-size: 14px;
+      font-family:楷体;
+    }
+    .qianbei{
+      .qian{
+        font-family: 宋体;
+        text-align:right;
+        }
+    }
+  }
